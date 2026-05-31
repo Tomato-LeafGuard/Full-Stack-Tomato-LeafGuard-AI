@@ -1,5 +1,5 @@
 # app/api/routes/history.py
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -47,7 +47,6 @@ def delete_history(
     ).first()
 
     if not diagnosis:
-        from fastapi import HTTPException, status
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Diagnosis tidak ditemukan"

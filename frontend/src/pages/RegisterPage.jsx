@@ -69,7 +69,7 @@ export default function RegisterPage() {
                 🌱
               </div>
               <div>
-                <h1 className="text-white text-4xl font-bold">TomatoCare</h1>
+                <h1 className="text-white text-4xl font-bold">Tomato LeafGuard</h1>
                 <p className="text-green-100 text-lg mt-1">Smart AI Plant Diagnosis</p>
               </div>
             </div>

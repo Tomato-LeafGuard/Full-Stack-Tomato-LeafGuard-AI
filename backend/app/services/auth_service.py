@@ -1,6 +1,6 @@
 # app/services/auth_service.py
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
@@ -68,7 +68,7 @@ def update_user_profile(db: Session, user: User, update_data: UserUpdate) -> Use
     if update_data.location is not None:
         user.location = update_data.location
 
-    user.updated_at = datetime.utcnow()
+    user.updated_at = datetime.now(timezone.utc)
     db.commit()
     db.refresh(user)
     return user
@@ -87,7 +87,7 @@ def forgot_password(db: Session, email: str) -> str:
     # Generate token acak
     reset_token = secrets.token_urlsafe(32)
     user.reset_token = reset_token
-    user.reset_token_expire = datetime.utcnow() + timedelta(hours=1)
+    user.reset_token_expire = datetime.now(timezone.utc) + timedelta(hours=1)
     db.commit()
 
     # Di production: kirim email dengan link reset
@@ -99,7 +99,7 @@ def reset_password(db: Session, token: str, new_password: str) -> bool:
     """Reset password menggunakan token."""
     user = db.query(User).filter(
         User.reset_token == token,
-        User.reset_token_expire > datetime.utcnow()
+        User.reset_token_expire > datetime.now(timezone.utc)
     ).first()
 
     if not user:
@@ -111,7 +111,7 @@ def reset_password(db: Session, token: str, new_password: str) -> bool:
     user.hashed_password = hash_password(new_password)
     user.reset_token = None
     user.reset_token_expire = None
-    user.updated_at = datetime.utcnow()
+    user.updated_at = datetime.now(timezone.utc)
     db.commit()
     return True
 
@@ -130,13 +130,13 @@ def get_user_stats(db: Session, user: User) -> dict:
         DiagnosisHistory.disease_id.isnot(None)
     ).distinct(DiagnosisHistory.disease_id).count()
 
-    # Hitung yang healthy (confidence > 0.8 = berhasil terdeteksi dengan yakin)
-    healthy_count = db.query(DiagnosisHistory).filter(
+    # Hitung scan dengan confidence tinggi (>= 0.8) = berhasil terdeteksi dengan yakin
+    high_confidence_count = db.query(DiagnosisHistory).filter(
         DiagnosisHistory.user_id == user.id,
         DiagnosisHistory.confidence_score >= 0.8
     ).count()
 
-    success_rate = (healthy_count / total_scan * 100) if total_scan > 0 else 0
+    success_rate = (high_confidence_count / total_scan * 100) if total_scan > 0 else 0
 
     return {
         "total_scan": total_scan,

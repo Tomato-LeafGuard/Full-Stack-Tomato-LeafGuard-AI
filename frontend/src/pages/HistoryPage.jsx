@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import historyService from "../services/historyService";
 import diagnosisService from "../services/diagnosisService";
-import { getErrorMessage } from "../services/api";
+import { getErrorMessage, getAvatarUrl } from "../services/api";
 
-const BASE_URL = import.meta.env.VITE_API_URL?.replace("/api/v1", "") || "http://localhost:8000";
+
 
 export default function HistoryPage() {
   const { user } = useAuth();
@@ -75,13 +75,7 @@ export default function HistoryPage() {
     });
   };
 
-  const getAvatarUrl = () => {
-    if (!user?.avatar_url) return null;
-    if (user.avatar_url.startsWith("http")) return user.avatar_url;
-    return `${BASE_URL}${user.avatar_url}`;
-  };
-
-  const avatarUrl = getAvatarUrl();
+  const avatarUrl = getAvatarUrl(user);
 
   return (
     <div className="min-h-screen bg-[#F7F8F4]">

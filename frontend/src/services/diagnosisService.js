@@ -1,5 +1,5 @@
 // src/services/diagnosisService.js
-import api from "./api";
+import api, { getImageUrl } from "./api";
 
 const diagnosisService = {
   /**
@@ -56,13 +56,10 @@ const diagnosisService = {
   },
 
   /**
-   * Helper: format URL gambar
+   * Helper: format URL gambar (delegasi ke shared getImageUrl)
    */
   getImageUrl(imagePath) {
-    if (!imagePath) return null;
-    if (imagePath.startsWith("http")) return imagePath;
-    const BASE_URL = import.meta.env.VITE_API_URL?.replace("/api/v1", "") || "http://localhost:8000";
-    return `${BASE_URL}${imagePath}`;
+    return getImageUrl(imagePath);
   },
 };
 

@@ -2,6 +2,7 @@
 import uuid
 from datetime import datetime
 from pydantic import BaseModel
+from pydantic import ConfigDict
 
 
 class DiseaseInfoResponse(BaseModel):
@@ -15,8 +16,7 @@ class DiseaseInfoResponse(BaseModel):
     prevention: str | None
     severity_level: str | None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class DiagnosisResponse(BaseModel):
@@ -29,8 +29,7 @@ class DiagnosisResponse(BaseModel):
     diagnosed_at: datetime
     disease: DiseaseInfoResponse | None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class DiagnosisHistoryResponse(BaseModel):
@@ -42,5 +41,4 @@ class DiagnosisHistoryResponse(BaseModel):
     diagnosed_at: datetime
     disease: DiseaseInfoResponse | None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

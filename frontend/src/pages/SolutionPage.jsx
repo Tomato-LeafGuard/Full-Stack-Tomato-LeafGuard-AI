@@ -79,9 +79,12 @@ export default function SolutionPage() {
   const navigate = useNavigate();
   const diagnosis = location.state?.diagnosis;
 
-  // Steps checklist dari solusi
-  const solutions = diagnosis?.disease?.class_name
-    ? (DISEASE_SOLUTIONS[diagnosis.disease.class_name] || [])
+  // Langkah penanganan: gunakan data terperinci dari DISEASE_SOLUTIONS
+  // (lebih lengkap, step-by-step) jika tersedia. Jika tidak, fallback ke
+  // disease.treatment dari API, lalu fallback generik.
+  const className = diagnosis?.disease?.class_name;
+  const solutions = (className && DISEASE_SOLUTIONS[className])
+    ? DISEASE_SOLUTIONS[className]
     : diagnosis?.disease?.treatment
     ? diagnosis.disease.treatment.split(". ").filter(Boolean)
     : [

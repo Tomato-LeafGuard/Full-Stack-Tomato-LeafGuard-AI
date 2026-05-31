@@ -1,6 +1,6 @@
 # app/models/diagnosis.py
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import String, Float, Text, DateTime, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
@@ -73,7 +73,7 @@ class DiagnosisHistory(Base):
     notes: Mapped[str] = mapped_column(Text, nullable=True)
     diagnosed_at: Mapped[datetime] = mapped_column(
         DateTime,
-        default=datetime.utcnow
+        default=lambda: datetime.now(timezone.utc)
     )
 
     # Relasi balik ke User dan DiseaseInfo

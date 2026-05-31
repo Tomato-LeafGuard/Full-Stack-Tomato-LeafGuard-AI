@@ -19,11 +19,11 @@ export default function DiagnosisPage() {
   const handleFiles = (files) => {
     const validFiles = Array.from(files).filter((f) => {
       const ext = f.name.split(".").pop().toLowerCase();
-      return ["jpg", "jpeg", "png", "webp"].includes(ext) && f.size <= 10 * 1024 * 1024;
+      return ["jpg", "jpeg", "png", "webp"].includes(ext) && f.size <= 5 * 1024 * 1024;
     });
 
     if (validFiles.length !== files.length) {
-      setError("Beberapa file tidak valid. Gunakan JPG/PNG/WEBP maks 10MB.");
+      setError("Beberapa file tidak valid. Gunakan JPG/PNG/WEBP maks 5MB.");
     }
 
     const urls = validFiles.map((f) => URL.createObjectURL(f));
@@ -146,7 +146,7 @@ export default function DiagnosisPage() {
           <h2 className="text-3xl text-gray-700">Seret gambar ke sini</h2>
           <p className="text-green-500 text-xl mt-2">atau klik untuk unggah</p>
           <div className="mt-6 bg-[#DCE9D8] px-8 py-3 rounded-xl text-gray-700">
-            JPG, PNG, WEBP • Maks 10 MB/gambar
+            JPG, PNG, WEBP • Maks 5 MB/gambar
           </div>
         </div>
 

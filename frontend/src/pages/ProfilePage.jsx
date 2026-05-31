@@ -6,9 +6,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import authService from "../services/authService";
-import { getErrorMessage } from "../services/api";
+import { getErrorMessage, getAvatarUrl } from "../services/api";
 
-const BASE_URL = import.meta.env.VITE_API_URL?.replace("/api/v1", "") || "http://localhost:8000";
+
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -50,12 +50,6 @@ export default function ProfilePage() {
     fetchStats();
   }, []);
 
-  const getAvatarUrl = () => {
-    if (!user?.avatar_url) return null;
-    if (user.avatar_url.startsWith("http")) return user.avatar_url;
-    return `${BASE_URL}${user.avatar_url}`;
-  };
-
   const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -96,7 +90,7 @@ export default function ProfilePage() {
     }
   };
 
-  const avatarUrl = getAvatarUrl();
+  const avatarUrl = getAvatarUrl(user);
 
   return (
     <div className="min-h-screen bg-[#F7F8F4] px-8 py-10">
