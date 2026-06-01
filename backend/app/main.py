@@ -168,6 +168,7 @@ app.add_middleware(
         "http://localhost:3000",
         "http://127.0.0.1:5173",
         "https://leafguard.vercel.app",
+        "https://full-stack-tomato-leaf-guard-ai.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
