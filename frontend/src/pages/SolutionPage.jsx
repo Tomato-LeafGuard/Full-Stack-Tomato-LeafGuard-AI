@@ -111,34 +111,35 @@ export default function SolutionPage() {
     : null;
 
   return (
-    <div className="min-h-screen bg-[#F7F8F4] px-8 py-6">
+    <div className="min-h-screen overflow-x-hidden bg-[#F7F8F4] px-4 py-5 sm:px-6 lg:px-8">
 
       {/* HEADER */}
-      <div className="flex items-center gap-4 mb-8">
+      <div className="mx-auto mb-8 flex max-w-7xl items-center gap-3 sm:gap-4">
         <button onClick={() => navigate(-1)} className="text-green-800 hover:text-green-600 transition">
-          <ArrowLeft size={32} />
+          <ArrowLeft size={30} />
         </button>
-        <img src={logo} alt="logo" className="w-14 h-14" />
-        <h1 className="text-4xl font-bold tracking-tight text-[#2E4B3A]">
+        <img src={logo} alt="logo" className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
+        <h1 className="min-w-0 text-2xl font-bold tracking-tight text-[#2E4B3A] sm:text-4xl">
           Rekomendasi Perawatan
         </h1>
       </div>
 
+      <main className="mx-auto max-w-7xl">
       {/* DIAGNOSIS INFO */}
       {diagnosis && (
-        <div className="bg-white rounded-3xl p-6 mb-10 flex gap-6 items-center shadow-sm border border-gray-100">
+        <div className="mb-10 flex flex-col gap-5 rounded-3xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6 md:flex-row md:items-center md:gap-6">
           {imageUrl && (
             <img
               src={imageUrl}
               alt="leaf"
-              className="w-[120px] h-[120px] object-cover rounded-2xl"
+              className="h-52 w-full rounded-2xl object-cover md:h-[120px] md:w-[120px] md:shrink-0"
             />
           )}
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-800">
+          <div className="min-w-0 flex-1">
+            <h2 className="break-words text-2xl font-bold text-gray-800">
               {diagnosis.disease?.display_name || "Penyakit Tidak Dikenali"}
             </h2>
-            <p className="text-gray-500 mt-2 text-lg">
+            <p className="mt-2 break-words text-base text-gray-500 sm:text-lg">
               {diagnosis.disease?.description || diagnosis.notes || ""}
             </p>
             <div className="flex gap-4 mt-4 flex-wrap">
@@ -156,7 +157,7 @@ export default function SolutionPage() {
           </div>
 
           {/* PROGRESS LINGKARAN */}
-          <div className="flex flex-col items-center gap-2 min-w-[100px]">
+          <div className="flex shrink-0 flex-col items-center gap-2 md:min-w-[100px]">
             <div className="relative w-20 h-20">
               <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
                 <path
@@ -190,14 +191,14 @@ export default function SolutionPage() {
       )}
 
       {/* SOLUTION LIST */}
-      <h2 className="text-2xl font-bold text-gray-700 mb-6">Langkah Penanganan</h2>
+      <h2 className="mb-6 text-2xl font-bold text-gray-700">Langkah Penanganan</h2>
       <div className="flex flex-col gap-6">
         {solutions.map((solution, index) => (
-          <div key={index} className="flex items-center gap-5">
+          <div key={index} className="flex items-start gap-3 sm:gap-5">
             {/* ICON TOGGLE */}
             <button
               onClick={() => toggleStep(index)}
-              className={`w-[55px] h-[55px] shrink-0 rounded-full flex items-center justify-center text-2xl cursor-pointer transition font-bold ${
+              className={`flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full text-xl font-bold transition sm:h-[55px] sm:w-[55px] sm:text-2xl ${
                 doneSteps[index]
                   ? "bg-green-500 text-white shadow-lg shadow-green-200"
                   : "bg-[#B8D4B3] text-gray-800 hover:bg-green-200"
@@ -207,10 +208,10 @@ export default function SolutionPage() {
             </button>
 
             {/* CARD */}
-            <div className={`flex-1 rounded-2xl px-6 py-5 flex justify-between items-center transition ${
+            <div className={`flex min-w-0 flex-1 items-center justify-between gap-3 rounded-2xl px-4 py-4 transition sm:px-6 sm:py-5 ${
               doneSteps[index] ? "bg-[#DFF0DA]" : "bg-[#EDF4EA]"
             }`}>
-              <p className={`text-2xl max-w-4xl transition ${
+              <p className={`max-w-4xl break-words text-lg transition sm:text-2xl ${
                 doneSteps[index] ? "text-gray-500 line-through" : "text-gray-800"
               }`}>
                 {solution}
@@ -224,20 +225,21 @@ export default function SolutionPage() {
       </div>
 
       {/* ACTION BUTTONS */}
-      <div className="flex gap-4 mt-12">
+      <div className="mt-12 flex flex-col gap-4 sm:flex-row">
         <Link
           to="/diagnosis"
-          className="flex-1 bg-white border-2 border-green-600 text-green-600 hover:bg-green-50 text-xl font-semibold py-4 rounded-2xl text-center transition"
+          className="flex-1 rounded-2xl border-2 border-green-600 bg-white py-4 text-center text-lg font-semibold text-green-600 transition hover:bg-green-50 sm:text-xl"
         >
           Diagnosis Baru
         </Link>
         <Link
           to="/history"
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white text-xl font-semibold py-4 rounded-2xl text-center transition"
+          className="flex-1 rounded-2xl bg-green-600 py-4 text-center text-lg font-semibold text-white transition hover:bg-green-700 sm:text-xl"
         >
           Lihat History
         </Link>
       </div>
+      </main>
     </div>
   );
 }

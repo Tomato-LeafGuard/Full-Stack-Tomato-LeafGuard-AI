@@ -44,7 +44,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center relative"
+      className="relative flex min-h-screen items-center justify-center overflow-x-hidden bg-cover bg-center px-4 py-10 sm:px-6"
       style={{ backgroundImage: `url(${tomatoBg})` }}
     >
       {/* OVERLAY */}
@@ -53,24 +53,24 @@ export default function LoginPage() {
       {/* LOGIN BOX */}
       <form
         onSubmit={handleSubmit}
-        className="relative z-10 flex flex-col items-center w-full max-w-md px-6"
+        className="relative z-10 flex w-full max-w-md flex-col items-center px-2 sm:px-6"
       >
         {/* TITLE */}
-        <h1 className="text-5xl font-bold text-[#355E3B] tracking-tight mb-16">
+        <h1 className="mb-10 text-center text-4xl font-bold tracking-tight text-[#355E3B] sm:mb-16 sm:text-5xl">
           Tomato LeafGuard
         </h1>
 
         {/* ERROR MESSAGE */}
         {error && (
-          <div className="w-[400px] mb-4 bg-red-50 border border-red-300 rounded-2xl px-5 py-3">
+          <div className="mb-4 w-full rounded-2xl border border-red-300 bg-red-50 px-5 py-3">
             <p className="text-red-600 text-sm font-medium">{error}</p>
           </div>
         )}
 
         {/* EMAIL */}
-        <div className="w-[400px] mb-8">
-          <label className="text-white text-3xl">Masukan E-mail</label>
-          <div className="mt-3 bg-white/20 backdrop-blur-md rounded-full px-6 py-2 flex items-center justify-between border-2 border-transparent focus-within:border-white transition">
+        <div className="mb-6 w-full sm:mb-8">
+          <label className="text-2xl text-white sm:text-3xl">Masukan E-mail</label>
+          <div className="mt-3 flex items-center justify-between rounded-full border-2 border-transparent bg-white/20 px-5 py-3 backdrop-blur-md transition focus-within:border-white sm:px-6">
             <input
               type="email"
               name="email"
@@ -78,17 +78,17 @@ export default function LoginPage() {
               value={form.email}
               onChange={handleChange}
               disabled={loading}
-              className="bg-transparent outline-none text-white placeholder:text-white/70 text-lg w-full"
+              className="w-full min-w-0 bg-transparent text-base text-white outline-none placeholder:text-white/70 sm:text-lg"
               required
             />
-            <Mail size={35} className="text-white" />
+            <Mail size={30} className="shrink-0 text-white sm:size-9" />
           </div>
         </div>
 
         {/* PASSWORD */}
-        <div className="w-[400px] mb-6">
-          <label className="text-white text-3xl">Masukan Password</label>
-          <div className="mt-3 bg-white/20 backdrop-blur-md rounded-full px-6 py-2 flex items-center justify-between border-2 border-transparent focus-within:border-white transition">
+        <div className="mb-6 w-full">
+          <label className="text-2xl text-white sm:text-3xl">Masukan Password</label>
+          <div className="mt-3 flex items-center justify-between rounded-full border-2 border-transparent bg-white/20 px-5 py-3 backdrop-blur-md transition focus-within:border-white sm:px-6">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -96,33 +96,33 @@ export default function LoginPage() {
               value={form.password}
               onChange={handleChange}
               disabled={loading}
-              className="bg-transparent outline-none text-white placeholder:text-white/70 text-lg w-full"
+              className="w-full min-w-0 bg-transparent text-base text-white outline-none placeholder:text-white/70 sm:text-lg"
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword((v) => !v)}
-              className="text-white ml-2 focus:outline-none"
+              className="ml-2 shrink-0 text-white focus:outline-none"
             >
-              {showPassword ? <EyeOff size={35} /> : <Eye size={35} />}
+              {showPassword ? <EyeOff size={30} className="sm:size-9" /> : <Eye size={30} className="sm:size-9" />}
             </button>
           </div>
         </div>
 
         {/* LINKS */}
-        <div className="flex flex-col items-center mb-10">
-          <p className="text-white text-2xl">
+        <div className="mb-10 flex flex-col items-center text-center">
+          <p className="text-lg text-white sm:text-2xl">
             Belum punya akun?
             <Link
               to="/register"
-              className="text-2xl font-bold text-green-900 ml-2 hover:underline"
+              className="ml-2 text-lg font-bold text-green-900 hover:underline sm:text-2xl"
             >
               Daftar
             </Link>
           </p>
           <Link
             to="/forgot-password"
-            className="text-white text-2xl underline mt-4 cursor-pointer hover:text-green-200"
+            className="mt-4 cursor-pointer text-lg text-white underline hover:text-green-200 sm:text-2xl"
           >
             Lupa Password?
           </Link>
@@ -132,7 +132,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-[260px] py-3 rounded-full text-xl font-semibold bg-green-600 hover:bg-green-700 hover:scale-105 transition text-white shadow-xl shadow-green-900/30 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
+          className="flex w-full max-w-[260px] items-center justify-center gap-2 rounded-full bg-green-600 py-3 text-xl font-semibold text-white shadow-xl shadow-green-900/30 transition hover:scale-105 hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
         >
           {loading ? (
             <>

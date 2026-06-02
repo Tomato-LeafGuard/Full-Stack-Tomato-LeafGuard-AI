@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, ArrowLeft, Loader2, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Loader2, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import authService from "../services/authService";
 import { getErrorMessage } from "../services/api";
@@ -9,7 +9,7 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const [resetToken, setResetToken] = useState(""); // hanya untuk demo
+  const [resetToken, setResetToken] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +21,6 @@ export default function ForgotPasswordPage() {
     try {
       const data = await authService.forgotPassword(email);
       setSuccess(true);
-      // Di production hapus ini — hanya untuk demo lokal
       if (data.reset_token) {
         setResetToken(data.reset_token);
       }
@@ -33,114 +32,104 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F8F4] flex items-center justify-center px-6 py-10">
-      <div className="w-full max-w-5xl bg-white rounded-[40px] overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-2">
-
-        {/* LEFT SIDE */}
-        <div className="bg-gradient-to-b from-green-600 to-green-700 p-14 flex flex-col justify-between relative overflow-hidden">
+    <div className="flex min-h-screen items-center justify-center overflow-x-hidden bg-[#F7F8F4] px-4 py-8 sm:px-6 sm:py-10">
+      <div className="grid w-full max-w-5xl grid-cols-1 overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-2 lg:rounded-[40px]">
+        <section className="relative flex flex-col justify-between overflow-hidden bg-gradient-to-b from-green-600 to-green-700 p-6 sm:p-10 lg:p-14">
           <div>
             <Link
               to="/login"
-              className="flex items-center gap-3 text-white text-xl mb-10 hover:opacity-80 transition"
+              className="mb-8 flex items-center gap-3 text-lg text-white transition hover:opacity-80 sm:mb-10 sm:text-xl"
             >
               <ArrowLeft size={24} />
               Kembali ke Login
             </Link>
 
-            <div className="w-24 h-24 rounded-3xl bg-white/20 flex items-center justify-center text-5xl mb-10">
-              🔐
+            <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-3xl bg-white/20 text-3xl font-bold text-white sm:mb-10 sm:h-24 sm:w-24 sm:text-4xl">
+              TL
             </div>
 
-            <h1 className="text-white text-6xl font-bold leading-tight max-w-xl">
+            <h1 className="max-w-xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
               Lupa Password?
             </h1>
 
-            <p className="text-green-100 text-2xl mt-8 leading-relaxed max-w-xl">
-              Jangan khawatir. Masukkan email akunmu dan kami akan mengirimkan link untuk reset password.
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-green-100 sm:mt-8 sm:text-2xl">
+              Masukkan email akunmu dan kami akan mengirimkan link untuk reset password.
             </p>
           </div>
 
-          <div className="bg-white/15 backdrop-blur-md rounded-3xl p-8 mt-16">
-            <h3 className="text-white text-3xl font-bold mb-3">Keamanan Akun</h3>
-            <p className="text-green-100 text-lg leading-relaxed">
+          <div className="mt-10 rounded-3xl bg-white/15 p-6 backdrop-blur-md sm:mt-16 sm:p-8">
+            <h3 className="mb-3 text-2xl font-bold text-white sm:text-3xl">Keamanan Akun</h3>
+            <p className="text-base leading-relaxed text-green-100 sm:text-lg">
               Pastikan email yang digunakan aktif agar proses pemulihan akun berjalan lancar.
             </p>
           </div>
 
-          <div className="absolute -bottom-24 -right-24 w-[260px] h-[260px] rounded-full bg-white/10" />
-          <div className="absolute top-10 right-10 w-[120px] h-[120px] rounded-full bg-white/10" />
-        </div>
+          <div className="absolute -bottom-24 -right-24 h-[220px] w-[220px] rounded-full bg-white/10 sm:h-[260px] sm:w-[260px]" />
+          <div className="absolute right-10 top-10 h-[100px] w-[100px] rounded-full bg-white/10 sm:h-[120px] sm:w-[120px]" />
+        </section>
 
-        {/* RIGHT SIDE */}
-        <div className="p-12 lg:p-16 flex flex-col justify-center">
+        <section className="flex min-w-0 flex-col justify-center p-6 sm:p-10 lg:p-16">
           {success ? (
-            <div className="flex flex-col items-center text-center gap-6">
+            <div className="flex flex-col items-center gap-6 text-center">
               <CheckCircle2 size={80} className="text-green-500" />
-              <h2 className="text-4xl font-bold text-gray-800">Email Terkirim!</h2>
-              <p className="text-gray-500 text-xl leading-relaxed">
-                Instruksi reset password telah dikirim ke <strong>{email}</strong>.
-                Periksa inbox atau folder spam kamu.
+              <h2 className="text-3xl font-bold text-gray-800 sm:text-4xl">Email Terkirim!</h2>
+              <p className="break-words text-lg leading-relaxed text-gray-500 sm:text-xl">
+                Instruksi reset password telah dikirim ke <strong>{email}</strong>. Periksa inbox atau folder spam kamu.
               </p>
 
-              {/* Demo only — tampilkan token untuk testing */}
               {resetToken && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 w-full text-left">
-                  <p className="text-yellow-700 text-sm font-semibold mb-1">
-                    🔧 Token Reset (Demo/Testing):
-                  </p>
-                  <p className="text-xs font-mono text-gray-600 break-all">{resetToken}</p>
-                  <p className="text-xs text-yellow-600 mt-2">
+                <div className="w-full rounded-2xl border border-yellow-200 bg-yellow-50 p-4 text-left">
+                  <p className="mb-1 text-sm font-semibold text-yellow-700">Token Reset (Demo/Testing):</p>
+                  <p className="break-all font-mono text-xs text-gray-600">{resetToken}</p>
+                  <p className="mt-2 text-xs text-yellow-600">
                     Di production, token ini dikirim via email. Hapus bagian ini.
                   </p>
                 </div>
               )}
 
-              <Link
-                to="/login"
-                className="text-green-600 font-semibold text-lg hover:underline"
-              >
+              <Link to="/login" className="text-lg font-semibold text-green-600 hover:underline">
                 Kembali ke Login
               </Link>
             </div>
           ) : (
             <>
-              <div className="mb-10">
-                <h2 className="text-5xl font-bold text-gray-800">Reset Password</h2>
-                <p className="text-gray-500 text-xl mt-4 leading-relaxed">
+              <div className="mb-8 sm:mb-10">
+                <h2 className="text-4xl font-bold text-gray-800 sm:text-5xl">Reset Password</h2>
+                <p className="mt-4 text-lg leading-relaxed text-gray-500 sm:text-xl">
                   Kami akan mengirimkan instruksi reset password ke email kamu.
                 </p>
               </div>
 
-              {/* ERROR */}
               {error && (
-                <div className="mb-6 bg-red-50 border border-red-200 rounded-2xl px-5 py-3">
-                  <p className="text-red-600 text-sm font-medium">{error}</p>
+                <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-3">
+                  <p className="text-sm font-medium text-red-600">{error}</p>
                 </div>
               )}
 
               <form onSubmit={handleSubmit}>
-                {/* EMAIL INPUT */}
                 <div>
-                  <label className="text-gray-700 text-lg font-medium block mb-3">Email</label>
-                  <div className="flex items-center bg-[#F5F7F3] rounded-2xl px-6 py-5 border-2 border-transparent focus-within:border-green-500 transition">
-                    <Mail size={24} className="text-green-600" />
+                  <label className="mb-3 block text-lg font-medium text-gray-700">Email</label>
+                  <div className="flex items-center rounded-2xl border-2 border-transparent bg-[#F5F7F3] px-5 py-4 transition focus-within:border-green-500 sm:px-6 sm:py-5">
+                    <Mail size={24} className="shrink-0 text-green-600" />
                     <input
                       type="email"
                       placeholder="Masukkan email akun"
                       value={email}
-                      onChange={(e) => { setEmail(e.target.value); setError(""); }}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        setError("");
+                      }}
                       disabled={loading}
-                      className="bg-transparent outline-none w-full ml-4 text-lg"
+                      className="ml-4 w-full min-w-0 bg-transparent text-base outline-none sm:text-lg"
                       required
                     />
                   </div>
                 </div>
 
-                {/* BUTTON */}
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-green-600 hover:bg-green-700 transition text-white text-2xl font-semibold py-5 rounded-2xl mt-10 shadow-lg shadow-green-200 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-green-600 py-4 text-xl font-semibold text-white shadow-lg shadow-green-200 transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70 sm:mt-10 sm:py-5 sm:text-2xl"
                 >
                   {loading ? (
                     <>
@@ -153,18 +142,17 @@ export default function ForgotPasswordPage() {
                 </button>
               </form>
 
-              {/* LOGIN */}
-              <div className="mt-10 text-center">
-                <p className="text-gray-500 text-lg">
+              <div className="mt-8 text-center sm:mt-10">
+                <p className="text-base text-gray-500 sm:text-lg">
                   Ingat password?
-                  <Link to="/login" className="text-green-600 font-semibold ml-2 hover:underline">
+                  <Link to="/login" className="ml-2 font-semibold text-green-600 hover:underline">
                     Masuk
                   </Link>
                 </p>
               </div>
             </>
           )}
-        </div>
+        </section>
       </div>
     </div>
   );

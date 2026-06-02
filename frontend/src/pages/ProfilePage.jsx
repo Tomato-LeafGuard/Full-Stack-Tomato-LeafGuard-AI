@@ -1,14 +1,22 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  Mail, Phone, MapPin, Pencil, Leaf, ScanLine, Activity,
-  Loader2, Check, X, LogOut, Camera
+  Activity,
+  Camera,
+  Check,
+  Leaf,
+  Loader2,
+  LogOut,
+  Mail,
+  MapPin,
+  Pencil,
+  Phone,
+  ScanLine,
+  X,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import authService from "../services/authService";
-import { getErrorMessage, getAvatarUrl } from "../services/api";
-
-
+import { getAvatarUrl, getErrorMessage } from "../services/api";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -17,14 +25,12 @@ export default function ProfilePage() {
 
   const [stats, setStats] = useState({ total_scan: 0, total_diseases: 0, success_rate: 0 });
   const [loadingStats, setLoadingStats] = useState(true);
-
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({ full_name: "", phone: "", location: "" });
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
-  // Populate form dari user data
   useEffect(() => {
     if (user) {
       setForm({
@@ -35,7 +41,6 @@ export default function ProfilePage() {
     }
   }, [user]);
 
-  // Fetch stats
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -93,187 +98,170 @@ export default function ProfilePage() {
   const avatarUrl = getAvatarUrl(user);
 
   return (
-    <div className="min-h-screen bg-[#F7F8F4] px-8 py-10">
-
-      {/* PROFILE HEADER */}
-      <div className="bg-white rounded-[40px] shadow-sm p-10 flex flex-col items-center relative">
-
-        {/* EDIT / SAVE BUTTON */}
-        {!isEditing ? (
-          <button
-            onClick={() => setIsEditing(true)}
-            className="absolute top-8 right-8 bg-green-500 p-4 rounded-full shadow-md hover:bg-green-600 transition"
-          >
-            <Pencil size={24} className="text-white" />
-          </button>
-        ) : (
-          <div className="absolute top-8 right-8 flex gap-3">
+    <div className="min-h-screen overflow-x-hidden bg-[#F7F8F4] px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
+      <main className="mx-auto w-full max-w-7xl">
+        <section className="relative flex flex-col items-center rounded-3xl bg-white p-6 shadow-sm sm:p-10 lg:rounded-[40px]">
+          {!isEditing ? (
             <button
-              onClick={handleSave}
-              disabled={saving}
-              className="bg-green-500 p-4 rounded-full shadow-md hover:bg-green-600 transition flex items-center gap-2 px-5"
+              type="button"
+              onClick={() => setIsEditing(true)}
+              className="absolute right-4 top-4 rounded-full bg-green-500 p-3 shadow-md transition hover:bg-green-600 sm:right-8 sm:top-8 sm:p-4"
+              aria-label="Edit profil"
             >
-              {saving ? <Loader2 size={20} className="animate-spin text-white" /> : <Check size={22} className="text-white" />}
+              <Pencil size={22} className="text-white sm:size-6" />
             </button>
+          ) : (
+            <div className="absolute right-4 top-4 flex gap-2 sm:right-8 sm:top-8 sm:gap-3">
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving}
+                className="flex items-center gap-2 rounded-full bg-green-500 p-3 shadow-md transition hover:bg-green-600 disabled:opacity-70 sm:p-4"
+                aria-label="Simpan profil"
+              >
+                {saving ? <Loader2 size={20} className="animate-spin text-white" /> : <Check size={22} className="text-white" />}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsEditing(false);
+                  setSaveError("");
+                }}
+                className="rounded-full bg-gray-400 p-3 shadow-md transition hover:bg-gray-500 sm:p-4"
+                aria-label="Batal edit"
+              >
+                <X size={22} className="text-white" />
+              </button>
+            </div>
+          )}
+
+          <div className="relative mt-6 sm:mt-0">
+            <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-green-200 sm:h-[150px] sm:w-[150px]">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="profile" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-green-500 text-5xl font-bold text-white sm:text-6xl">
+                  {user?.full_name?.charAt(0)?.toUpperCase() || "U"}
+                </div>
+              )}
+              {uploadingAvatar && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <Loader2 size={30} className="animate-spin text-white" />
+                </div>
+              )}
+            </div>
+
+            <input type="file" accept="image/*" ref={fileInputRef} className="hidden" onChange={handleAvatarChange} />
             <button
-              onClick={() => { setIsEditing(false); setSaveError(""); }}
-              className="bg-gray-400 p-4 rounded-full shadow-md hover:bg-gray-500 transition"
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="absolute bottom-0 right-0 rounded-full border-2 border-white bg-green-500 p-2 transition hover:bg-green-600"
+              aria-label="Ganti foto profil"
             >
-              <X size={22} className="text-white" />
+              <Camera size={16} className="text-white" />
             </button>
           </div>
-        )}
 
-        {/* PROFILE IMAGE */}
-        <div className="relative">
-          <div className="w-[150px] h-[150px] rounded-full border-4 border-green-200 overflow-hidden">
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt="profile"
-                className="w-full h-full object-cover"
+          {isEditing ? (
+            <div className="mt-6 w-full max-w-sm">
+              <input
+                type="text"
+                value={form.full_name}
+                onChange={(e) => setForm((prev) => ({ ...prev, full_name: e.target.value }))}
+                className="w-full rounded-2xl border-2 border-green-300 bg-[#F0F7EE] px-4 py-3 text-center text-2xl font-bold text-[#2E4B3A] outline-none sm:text-3xl"
+                placeholder="Nama lengkap"
+              />
+              {saveError && <p className="mt-2 text-center text-sm text-red-500">{saveError}</p>}
+            </div>
+          ) : (
+            <div className="mt-6 text-center">
+              <h1 className="break-words text-3xl font-bold text-[#2E4B3A] sm:text-5xl">
+                Hallo, {user?.full_name?.split(" ")[0] || "User"}
+              </h1>
+              <p className="mt-2 text-xl text-green-600 sm:text-2xl">Petani Tomat</p>
+            </div>
+          )}
+        </section>
+
+        <section className="mt-8 flex flex-col gap-5 rounded-3xl bg-[#EEF5EA] p-5 sm:mt-10 sm:gap-6 sm:p-8 lg:rounded-[35px]">
+          <ProfileRow icon={Mail}>
+            <p className="break-all text-lg text-gray-700 sm:text-2xl">{user?.email || "-"}</p>
+          </ProfileRow>
+
+          <ProfileRow icon={Phone}>
+            {isEditing ? (
+              <input
+                type="tel"
+                value={form.phone}
+                onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))}
+                placeholder="Nomor telepon"
+                className="min-w-0 flex-1 rounded-2xl border-2 border-green-300 bg-white px-4 py-3 text-lg text-gray-700 outline-none sm:text-2xl"
               />
             ) : (
-              <div className="w-full h-full bg-green-500 flex items-center justify-center text-white text-6xl font-bold">
-                {user?.full_name?.charAt(0)?.toUpperCase() || "U"}
-              </div>
+              <p className="break-words text-lg text-gray-700 sm:text-2xl">{user?.phone || "-"}</p>
             )}
-            {uploadingAvatar && (
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <Loader2 size={30} className="text-white animate-spin" />
-              </div>
+          </ProfileRow>
+
+          <ProfileRow icon={MapPin}>
+            {isEditing ? (
+              <input
+                type="text"
+                value={form.location}
+                onChange={(e) => setForm((prev) => ({ ...prev, location: e.target.value }))}
+                placeholder="Lokasi (kota, provinsi)"
+                className="min-w-0 flex-1 rounded-2xl border-2 border-green-300 bg-white px-4 py-3 text-lg text-gray-700 outline-none sm:text-2xl"
+              />
+            ) : (
+              <p className="break-words text-lg text-gray-700 sm:text-2xl">{user?.location || "-"}</p>
             )}
-          </div>
+          </ProfileRow>
+        </section>
 
-          {/* Camera button untuk ganti foto */}
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            className="hidden"
-            onChange={handleAvatarChange}
-          />
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="absolute bottom-0 right-0 bg-green-500 p-2 rounded-full border-2 border-white hover:bg-green-600 transition"
-          >
-            <Camera size={16} className="text-white" />
-          </button>
-        </div>
+        <section className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-3 sm:gap-6">
+          <StatCard icon={ScanLine} value={stats.total_scan} label="Total Scan" loading={loadingStats} />
+          <StatCard icon={Leaf} value={stats.total_diseases} label="Penyakit" loading={loadingStats} />
+          <StatCard icon={Activity} value={`${stats.success_rate}%`} label="Keberhasilan" loading={loadingStats} />
+        </section>
 
-        {/* NAME */}
-        {isEditing ? (
-          <div className="w-full max-w-sm mt-6">
-            <input
-              type="text"
-              value={form.full_name}
-              onChange={(e) => setForm((p) => ({ ...p, full_name: e.target.value }))}
-              className="text-center text-3xl font-bold text-[#2E4B3A] bg-[#F0F7EE] rounded-2xl px-4 py-2 outline-none border-2 border-green-300 w-full"
-              placeholder="Nama lengkap"
-            />
-            {saveError && <p className="text-red-500 text-sm mt-2 text-center">{saveError}</p>}
-          </div>
-        ) : (
-          <>
-            <h1 className="text-5xl font-bold text-[#2E4B3A] mt-6">
-              Hallo, {user?.full_name?.split(" ")[0] || "User"} 🌱
-            </h1>
-            <p className="text-green-600 text-2xl mt-2">Petani Tomat</p>
-          </>
-        )}
+        <section className="mt-8 rounded-3xl bg-[#DFF3D8] p-5 sm:mt-10 sm:p-8 lg:rounded-[35px]">
+          <h1 className="text-2xl font-bold text-[#2E4B3A] sm:text-3xl">Tips Hari Ini</h1>
+          <p className="mt-4 text-lg leading-relaxed text-gray-700 sm:text-2xl">
+            Hindari menyiram daun tomat pada malam hari untuk mencegah pertumbuhan jamur dan bakteri.
+          </p>
+        </section>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="mt-8 flex w-full items-center justify-center gap-3 rounded-3xl border-2 border-red-200 bg-red-50 py-4 text-xl font-semibold text-red-500 transition hover:border-red-300 hover:bg-red-100 sm:mt-10 sm:py-5 sm:text-2xl"
+        >
+          <LogOut size={26} className="sm:size-7" />
+          Keluar dari Akun
+        </button>
+      </main>
+    </div>
+  );
+}
+
+function ProfileRow({ icon: Icon, children }) {
+  return (
+    <div className="flex min-w-0 items-center gap-4 sm:gap-5">
+      <div className="shrink-0 rounded-full bg-white p-3 sm:p-4">
+        <Icon size={24} className="text-green-600 sm:size-7" />
       </div>
+      <div className="min-w-0 flex-1">{children}</div>
+    </div>
+  );
+}
 
-      {/* BIODATA CARD */}
-      <div className="bg-[#EEF5EA] rounded-[35px] p-8 mt-10 flex flex-col gap-6">
-
-        {/* EMAIL */}
-        <div className="flex items-center gap-5">
-          <div className="bg-white p-4 rounded-full shrink-0">
-            <Mail size={28} className="text-green-600" />
-          </div>
-          <p className="text-2xl text-gray-700">{user?.email || "-"}</p>
-        </div>
-
-        {/* PHONE */}
-        <div className="flex items-center gap-5">
-          <div className="bg-white p-4 rounded-full shrink-0">
-            <Phone size={28} className="text-green-600" />
-          </div>
-          {isEditing ? (
-            <input
-              type="tel"
-              value={form.phone}
-              onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-              placeholder="Nomor telepon"
-              className="text-2xl text-gray-700 bg-white rounded-2xl px-4 py-2 outline-none border-2 border-green-300 flex-1"
-            />
-          ) : (
-            <p className="text-2xl text-gray-700">{user?.phone || "-"}</p>
-          )}
-        </div>
-
-        {/* LOCATION */}
-        <div className="flex items-center gap-5">
-          <div className="bg-white p-4 rounded-full shrink-0">
-            <MapPin size={28} className="text-green-600" />
-          </div>
-          {isEditing ? (
-            <input
-              type="text"
-              value={form.location}
-              onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))}
-              placeholder="Lokasi (kota, provinsi)"
-              className="text-2xl text-gray-700 bg-white rounded-2xl px-4 py-2 outline-none border-2 border-green-300 flex-1"
-            />
-          ) : (
-            <p className="text-2xl text-gray-700">{user?.location || "-"}</p>
-          )}
-        </div>
-      </div>
-
-      {/* STATISTICS */}
-      <div className="grid grid-cols-3 gap-6 mt-10">
-        <div className="bg-white rounded-3xl p-8 shadow-sm flex flex-col items-center">
-          <ScanLine size={40} className="text-green-600" />
-          <h1 className="text-5xl font-bold text-[#2E4B3A] mt-4">
-            {loadingStats ? <Loader2 size={36} className="animate-spin" /> : stats.total_scan}
-          </h1>
-          <p className="text-gray-500 text-xl mt-2">Total Scan</p>
-        </div>
-
-        <div className="bg-white rounded-3xl p-8 shadow-sm flex flex-col items-center">
-          <Leaf size={40} className="text-green-600" />
-          <h1 className="text-5xl font-bold text-[#2E4B3A] mt-4">
-            {loadingStats ? <Loader2 size={36} className="animate-spin" /> : stats.total_diseases}
-          </h1>
-          <p className="text-gray-500 text-xl mt-2">Penyakit</p>
-        </div>
-
-        <div className="bg-white rounded-3xl p-8 shadow-sm flex flex-col items-center">
-          <Activity size={40} className="text-green-600" />
-          <h1 className="text-5xl font-bold text-[#2E4B3A] mt-4">
-            {loadingStats ? <Loader2 size={36} className="animate-spin" /> : `${stats.success_rate}%`}
-          </h1>
-          <p className="text-gray-500 text-xl mt-2">Keberhasilan</p>
-        </div>
-      </div>
-
-      {/* DAILY TIPS */}
-      <div className="bg-[#DFF3D8] rounded-[35px] p-8 mt-10">
-        <h1 className="text-3xl font-bold text-[#2E4B3A]">Tips Hari Ini 🌤️</h1>
-        <p className="text-2xl text-gray-700 leading-relaxed mt-4">
-          Hindari menyiram daun tomat pada malam hari untuk mencegah pertumbuhan jamur dan bakteri.
-        </p>
-      </div>
-
-      {/* LOGOUT BUTTON */}
-      <button
-        onClick={handleLogout}
-        className="w-full mt-10 bg-red-50 border-2 border-red-200 text-red-500 hover:bg-red-100 hover:border-red-300 text-2xl font-semibold py-5 rounded-3xl flex items-center justify-center gap-3 transition"
-      >
-        <LogOut size={28} />
-        Keluar dari Akun
-      </button>
+function StatCard({ icon: Icon, value, label, loading }) {
+  return (
+    <div className="flex flex-col items-center rounded-3xl bg-white p-6 text-center shadow-sm sm:p-8">
+      <Icon size={36} className="text-green-600 sm:size-10" />
+      <h1 className="mt-4 text-4xl font-bold text-[#2E4B3A] sm:text-5xl">
+        {loading ? <Loader2 size={36} className="animate-spin" /> : value}
+      </h1>
+      <p className="mt-2 text-lg text-gray-500 sm:text-xl">{label}</p>
     </div>
   );
 }

@@ -1,343 +1,188 @@
-import logo from "../assets/logo.png";
-import tomatoBg from "../assets/tomato-bg.jpg";
-import question from "../assets/question.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  Camera,
-  ClipboardCheck,
-  BookOpen,
- Globe,
-Mail,
-Phone,
-Leaf
-} from "lucide-react";
+import { BookOpen, Camera, ClipboardCheck, Globe, Leaf, Mail, Menu, Phone } from "lucide-react";
+import logo from "../assets/logo.png";
+import question from "../assets/question.png";
+import tomatoBg from "../assets/tomato-bg.jpg";
 
 export default function LandingPage() {
+  const navLinks = [
+    { label: "Home", to: "/" },
+    { label: "Diagnosis", to: "/diagnosis" },
+    { label: "Riwayat", to: "/history" },
+  ];
+
   return (
     <motion.div
-  initial={{ opacity: 0, y: 40 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.7 }}
-  className="min-h-screen bg-white"
->
-      {/* NAVBAR */}
-      <nav className="flex items-center justify-between px-16 py-6">
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+      className="min-h-screen overflow-x-hidden bg-white"
+    >
+      <nav className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:flex-nowrap lg:px-8 lg:py-6">
+        <Link to="/" className="flex min-w-0 items-center gap-3">
+          <img src={logo} alt="Tomato LeafGuard" className="h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12" />
+          <h1 className="truncate text-xl font-bold text-green-700 sm:text-2xl">Tomato LeafGuard</h1>
+        </Link>
 
-        {/* LOGO */}
-        <div className="flex items-center gap-3">
-          <img
-            src={logo}
-            alt="logo"
-             className="w-12 h-12 object-contain"
-          />
-
-          <h1 className="text-2xl font-bold text-green-700">
-            Tomato LeafGuard
-          </h1>
+        <div className="flex items-center gap-2 lg:hidden">
+          <Menu size={24} className="text-green-700" />
         </div>
 
-        {/* MENU */}
-<ul className="flex gap-10 text-green-500 font-medium text-lg">
+        <ul className="order-3 flex w-full flex-wrap justify-center gap-4 text-sm font-medium text-green-600 sm:gap-8 sm:text-base lg:order-2 lg:w-auto lg:gap-10 lg:text-lg">
+          {navLinks.map((item) => (
+            <li key={item.to}>
+              <Link to={item.to} className="transition hover:text-green-800">
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-  <li>
-    <Link
-      to="/"
-      className="hover:text-green-700 transition"
-    >
-      Home
-    </Link>
-  </li>
-
-  <li>
-    <Link
-      to="/diagnosis"
-      className="hover:text-green-700 transition"
-    >
-      Diagnosis
-    </Link>
-  </li>
-
-  <li>
-    <Link
-      to="/history"
-      className="hover:text-green-700 transition"
-    >
-      Riwayat
-    </Link>
-  </li>
-
-</ul>
-
-       {/* BUTTON */}
-<div className="flex gap-4">
-
-  <Link
-    to="/login"
-    className="border border-green-500 px-6 py-2 rounded-full text-green-500 hover:bg-green-50 transition"
-  >
-    Login
-  </Link>
-
-  <Link
-    to="/register"
-    className="bg-cyan-400 text-white px-6 py-2 rounded-full hover:bg-cyan-500 transition"
-  >
-    Sign Up
-  </Link>
-
-</div>
+        <div className="order-2 flex shrink-0 gap-2 sm:gap-3 lg:order-3">
+          <Link
+            to="/login"
+            className="rounded-full border border-green-500 px-4 py-2 text-sm text-green-600 transition hover:bg-green-50 sm:px-6 sm:text-base"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="rounded-full bg-cyan-500 px-4 py-2 text-sm text-white transition hover:bg-cyan-600 sm:px-6 sm:text-base"
+          >
+            Sign Up
+          </Link>
+        </div>
       </nav>
 
-      {/* HERO SECTION */}
-      <section className="flex flex-col items-center justify-center text-center mt-40 px-4">
-
-        <h1 className="text-7xl font-bold text-green-600">
+      <section className="mx-auto flex min-h-[calc(100vh-160px)] max-w-5xl flex-col items-center justify-center px-4 py-16 text-center sm:px-6 lg:px-8">
+        <h1 className="text-4xl font-bold leading-tight text-green-600 sm:text-5xl md:text-6xl lg:text-7xl">
           Tomato LeafGuard
         </h1>
-
-        <p className="text-3xl mt-6 max-w-4xl text-gray-800">
-          Diagnosis akurat dalam hitungan detik.
-          Hemat biaya pestisida hingga 60%
-          dengan targeted treatment.
+        <p className="mt-6 max-w-4xl text-xl leading-relaxed text-gray-800 sm:text-2xl md:text-3xl">
+          Diagnosis akurat dalam hitungan detik. Hemat biaya pestisida hingga 60% dengan targeted treatment.
         </p>
-
         <Link
-      to="/diagnosis"
-       className="mt-10 bg-green-500 text-white px-10 py-4 rounded-full text-lg hover:bg-green-600 transition inline-block"
-      >
-       Mulai Diagnosis Sekarang →
-      </Link>
-
+          to="/diagnosis"
+          className="mt-10 inline-flex max-w-full items-center justify-center rounded-full bg-green-500 px-6 py-4 text-base font-semibold text-white transition hover:bg-green-600 sm:px-10 sm:text-lg"
+        >
+          Mulai Diagnosis Sekarang
+        </Link>
       </section>
-{/* LAYANAN KAMI */}
-<section
-  className="relative min-h-screen bg-cover bg-center flex flex-col items-center justify-center px-10 py-20"
-  style={{
-    backgroundImage: `linear-gradient(rgba(115, 190, 90, 0.85), rgba(115, 190, 90, 0.85)), url(${tomatoBg})`,
-  }}
->
 
-  {/* TITLE */}
-  <h1 className="text-7xl font-bold text-white">
-    Layanan Kami
-  </h1>
+      <section
+        className="relative bg-cover bg-center px-4 py-20 sm:px-6 lg:px-8"
+        style={{
+          backgroundImage: `linear-gradient(rgba(115, 190, 90, 0.85), rgba(115, 190, 90, 0.85)), url(${tomatoBg})`,
+        }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <h1 className="text-center text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            Layanan Kami
+          </h1>
+          <p className="mx-auto mt-6 max-w-4xl text-center text-lg leading-relaxed text-white sm:text-xl md:text-2xl">
+            Penuh dengan fitur yang membuat perawatan tanaman terasa mudah, bukan beban.
+          </p>
 
-  {/* SUBTITLE */}
-  <p className="text-white text-2xl text-center mt-6 max-w-4xl">
-    Penuh dengan fitur yang membuat perawatan tanaman terasa mudah,
-    bukan beban
-  </p>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-8">
+            {[
+              {
+                icon: Camera,
+                title: "Deteksi Penyakit",
+                text: "Analisis bertenaga AI mengidentifikasi penyakit, hama, dan kekurangan nutrisi dari satu foto.",
+              },
+              {
+                icon: ClipboardCheck,
+                title: "Panduan Perawatan",
+                text: "Rencana perawatan langkah demi langkah dengan pelacakan kemajuan.",
+              },
+              {
+                icon: BookOpen,
+                title: "Jurnal Penyakit Tomat",
+                text: "Lacak kesehatan tanaman Anda dari waktu ke waktu dengan foto dan riwayat perawatan.",
+              },
+            ].map(({ icon: Icon, title, text }) => (
+              <article key={title} className="rounded-3xl border-2 border-white p-6 text-white sm:p-8">
+                <Icon size={56} className="mb-6 text-white sm:size-16" />
+                <h2 className="text-2xl font-bold sm:text-3xl">{title}</h2>
+                <div className="my-4 h-px w-full bg-white" />
+                <p className="text-base leading-relaxed sm:text-lg">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-  {/* CARD CONTAINER */}
-  <div className="flex gap-10 mt-20 flex-wrap justify-center">
-
-    {/* CARD 1 */}
-    <div className="border-4 border-white rounded-[40px] p-8 w-[320px] text-white">
-
-      <Camera size={70} className="mb-6 text-white" />
-
-      <h2 className="text-3xl font-bold">
-        Deteksi Penyakit
-      </h2>
-
-      <div className="w-full h-[2px] bg-white my-4"></div>
-
-      <p className="text-lg">
-        Analisis bertenaga AI mengidentifikasi penyakit,
-        hama, dan kekurangan nutrisi dari satu foto
-      </p>
-
-    </div>
-
-    {/* CARD 2 */}
-    <div className="border-4 border-white rounded-[40px] p-8 w-[320px] text-white">
-
-      <ClipboardCheck size={70} className="mb-6 text-white" />
-
-      <h2 className="text-3xl font-bold">
-        Panduan Perawatan
-      </h2>
-
-      <div className="w-full h-[2px] bg-white my-4"></div>
-
-      <p className="text-lg">
-        Rencana perawatan langkah demi langkah
-        dengan pelacakan kemajuan
-      </p>
-
-    </div>
-
-    {/* CARD 3 */}
-    <div className="border-4 border-white rounded-[40px] p-8 w-[320px] text-white hover:scale-105 transition duration-300">
-      <BookOpen size={70} className="mb-6 text-white" />
-
-      <h2 className="text-3xl font-bold">
-        Jurnal Penyakit Tomat
-      </h2>
-
-      <div className="w-full h-[2px] bg-white my-4"></div>
-
-      <p className="text-lg">
-        Lacak kesehatan tanaman Anda dari waktu ke waktu
-        dengan foto dan riwayat perawatan
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-{/* CARA PENGGUNAAN */}
-<section className="bg-[#F3F3F3] py-32 px-20">
-
-  <div className="flex items-center justify-between gap-20 flex-wrap">
-
-    {/* LEFT IMAGE */}
-    <div className="flex-1 flex justify-center">
-      <img
-        src={question}
-        alt="question"
-        className="w-[450px]"
-      />
-    </div>
-
-    {/* RIGHT CONTENT */}
-    <div className="flex-1">
-
-      <h1 className="text-6xl font-bold text-gray-700 mb-20">
-        Cara Penggunaan
-      </h1>
-
-      {/* STEP 1 */}
-      <div className="flex gap-8 mb-14">
-
-        <div className="flex flex-col items-center">
-          <div className="w-14 h-14 rounded-full bg-cyan-500 text-white flex items-center justify-center text-xl font-bold">
-            1
+      <section className="bg-[#F3F3F3] px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          <div className="flex justify-center">
+            <img src={question} alt="Ilustrasi cara penggunaan" className="w-full max-w-[360px] object-contain md:max-w-[450px]" />
           </div>
 
-          <div className="w-1 h-28 bg-cyan-500"></div>
+          <div className="min-w-0">
+            <h1 className="mb-10 text-4xl font-bold text-gray-700 sm:text-5xl lg:mb-16 lg:text-6xl">
+              Cara Penggunaan
+            </h1>
+
+            {[
+              {
+                title: "Ambil foto/Upload Foto",
+                text: "Arahkan kamera ke tanaman yang terlihat sehat, layu, atau di antaranya.",
+              },
+              {
+                title: "Dapatkan diagnosis AI",
+                text: "AI menganalisis foto Anda dan mengidentifikasi penyakit, kekurangan nutrisi, atau hama.",
+              },
+              {
+                title: "Ikuti rencana perawatan",
+                text: "Terima rekomendasi perawatan dan instruksi langkah demi langkah.",
+              },
+            ].map((step, index) => (
+              <div key={step.title} className="flex gap-5 sm:gap-8">
+                <div className="flex flex-col items-center">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-cyan-500 text-lg font-bold text-white sm:h-14 sm:w-14 sm:text-xl">
+                    {index + 1}
+                  </div>
+                  {index < 2 && <div className="h-20 w-1 bg-cyan-500 sm:h-28" />}
+                </div>
+
+                <div className={index < 2 ? "pb-8 sm:pb-12" : ""}>
+                  <h2 className="text-2xl font-bold text-gray-700 sm:text-3xl">{step.title}</h2>
+                  <p className="mt-3 max-w-xl text-base leading-relaxed text-gray-500 sm:mt-4 sm:text-lg">
+                    {step.text}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div>
-          <h2 className="text-3xl font-bold text-gray-700">
-            Ambil foto/Upload Foto
-          </h2>
-
-          <p className="text-gray-500 mt-4 text-lg max-w-xl">
-            Arahkan kamera ke tanaman apa saja baik yang terlihat sehat,
-            layu, atau di antaranya.
-          </p>
-        </div>
-
-      </div>
-
-      {/* STEP 2 */}
-      <div className="flex gap-8 mb-14">
-
-        <div className="flex flex-col items-center">
-          <div className="w-14 h-14 rounded-full bg-cyan-500 text-white flex items-center justify-center text-xl font-bold">
-            2
+      <footer className="bg-green-600 px-4 py-10 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <div className="flex min-w-0 items-center gap-4">
+            <img src={logo} alt="Tomato LeafGuard" className="h-12 w-12 shrink-0" />
+            <h1 className="text-xl font-bold sm:text-2xl">Tomato LeafGuard</h1>
           </div>
 
-          <div className="w-1 h-28 bg-cyan-500"></div>
+          <div className="flex flex-wrap gap-5 text-base sm:gap-10 sm:text-xl">
+            <Link to="/">Home</Link>
+            <Link to="/diagnosis">Services</Link>
+            <Link to="/profile">About Us</Link>
+          </div>
+
+          <div className="flex flex-wrap gap-3 sm:gap-4">
+            {[Globe, Mail, Phone, Leaf].map((Icon, index) => (
+              <div key={index} className="flex h-10 w-10 items-center justify-center rounded bg-white text-green-600 transition hover:scale-105">
+                <Icon size={20} />
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div>
-          <h2 className="text-3xl font-bold text-gray-700">
-            Dapatkan diagnosis AI
-          </h2>
-
-          <p className="text-gray-500 mt-4 text-lg max-w-xl">
-            AI menganalisis foto Anda dan mengidentifikasi penyakit,
-            kekurangan nutrisi, atau hama.
-          </p>
-        </div>
-
-      </div>
-
-      {/* STEP 3 */}
-      <div className="flex gap-8">
-
-        <div className="w-14 h-14 rounded-full bg-cyan-500 text-white flex items-center justify-center text-xl font-bold">
-          3
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-bold text-gray-700">
-            Ikuti rencana perawatan
-          </h2>
-
-          <p className="text-gray-500 mt-4 text-lg max-w-xl">
-            Terima rekomendasi perawatan dan instruksi langkah demi langkah.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-{/* FOOTER */}
-<footer className="bg-green-600 text-white py-12 px-20">
-
-  <div className="flex justify-between items-center flex-wrap gap-10">
-
-    {/* LOGO */}
-    <div className="flex items-center gap-4">
-
-      <img
-        src={logo}
-        alt="logo"
-        className="w-12 h-12"
-      />
-
-      <h1 className="text-2xl font-bold">
-        Tomato LeafGuard
-      </h1>
-
-    </div>
-
-    {/* MENU */}
-    <div className="flex gap-10 text-xl">
-      <p>Home</p>
-      <p>Services</p>
-      <p>About Us</p>
-    </div>
-
-   {/* SOCIAL */}
-<div className="flex gap-4">
-
-  <div className="bg-white text-green-600 w-10 h-10 rounded flex items-center justify-center hover:scale-110 transition">
-    <Globe size={20} />
-  </div>
-
-  <div className="bg-white text-green-600 w-10 h-10 rounded flex items-center justify-center hover:scale-110 transition">
-    <Mail size={20} />
-  </div>
-
-  <div className="bg-white text-green-600 w-10 h-10 rounded flex items-center justify-center hover:scale-110 transition">
-    <Phone size={20} />
-  </div>
-
-  <div className="bg-white text-green-600 w-10 h-10 rounded flex items-center justify-center hover:scale-110 transition">
-    <Leaf size={20} />
-  </div>
-
-</div>
-
-  </div>
-
-  <div className="w-full h-[1px] bg-white/40 my-10"></div>
-
-  <p className="text-center text-sm">
-    © 2026 Tomato LeafGuard
-  </p>
-
-</footer>
+        <div className="mx-auto my-8 h-px max-w-7xl bg-white/40 sm:my-10" />
+        <p className="text-center text-sm">© 2026 Tomato LeafGuard</p>
+      </footer>
     </motion.div>
-  )
+  );
 }

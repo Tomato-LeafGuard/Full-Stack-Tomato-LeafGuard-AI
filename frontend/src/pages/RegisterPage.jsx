@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getErrorMessage } from "../services/api";
@@ -48,7 +48,6 @@ export default function RegisterPage() {
         password: form.password,
       });
       setSuccess(true);
-      // Redirect ke login setelah 2 detik
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError(getErrorMessage(err));
@@ -58,78 +57,71 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F8F4] flex items-center justify-center px-6 py-10">
-      <div className="w-full max-w-6xl bg-white rounded-[40px] overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-2">
-
-        {/* LEFT SIDE */}
-        <div className="bg-gradient-to-b from-green-600 to-green-700 p-14 flex flex-col justify-between relative overflow-hidden">
+    <div className="flex min-h-screen items-center justify-center overflow-x-hidden bg-[#F7F8F4] px-4 py-8 sm:px-6 sm:py-10">
+      <div className="grid w-full max-w-6xl grid-cols-1 overflow-hidden rounded-3xl bg-white shadow-xl lg:grid-cols-2 lg:rounded-[40px]">
+        <section className="relative flex flex-col justify-between overflow-hidden bg-gradient-to-b from-green-600 to-green-700 p-6 sm:p-10 lg:p-14">
           <div>
-            <div className="flex items-center gap-4 mb-10">
-              <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-4xl">
-                🌱
+            <div className="mb-8 flex min-w-0 items-center gap-4 sm:mb-10">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-3xl sm:h-16 sm:w-16">
+                <span aria-hidden="true">TL</span>
               </div>
-              <div>
-                <h1 className="text-white text-4xl font-bold">Tomato LeafGuard</h1>
-                <p className="text-green-100 text-lg mt-1">Smart AI Plant Diagnosis</p>
+              <div className="min-w-0">
+                <h1 className="break-words text-3xl font-bold text-white sm:text-4xl">Tomato LeafGuard</h1>
+                <p className="mt-1 text-base text-green-100 sm:text-lg">Smart AI Plant Diagnosis</p>
               </div>
             </div>
 
-            <h2 className="text-white text-6xl font-bold leading-tight max-w-xl">
+            <h2 className="max-w-xl text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
               Rawat tanaman tomat lebih mudah bersama AI.
             </h2>
 
-            <p className="text-green-100 text-2xl mt-8 leading-relaxed max-w-2xl">
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-green-100 sm:mt-8 sm:text-2xl">
               Analisis penyakit daun, pantau riwayat tanaman, dan dapatkan rekomendasi perawatan terbaik secara real-time.
             </p>
           </div>
 
-          <div className="flex gap-6 mt-16 flex-wrap">
-            <div className="bg-white/15 backdrop-blur-md px-8 py-5 rounded-3xl">
-              <h3 className="text-white text-4xl font-bold">98%</h3>
-              <p className="text-green-100 mt-2 text-lg">Akurasi Deteksi</p>
+          <div className="mt-10 flex flex-wrap gap-4 sm:mt-16 sm:gap-6">
+            <div className="rounded-3xl bg-white/15 px-6 py-5 backdrop-blur-md sm:px-8">
+              <h3 className="text-3xl font-bold text-white sm:text-4xl">98%</h3>
+              <p className="mt-2 text-base text-green-100 sm:text-lg">Akurasi Deteksi</p>
             </div>
-            <div className="bg-white/15 backdrop-blur-md px-8 py-5 rounded-3xl">
-              <h3 className="text-white text-4xl font-bold">24/7</h3>
-              <p className="text-green-100 mt-2 text-lg">Monitoring Tanaman</p>
+            <div className="rounded-3xl bg-white/15 px-6 py-5 backdrop-blur-md sm:px-8">
+              <h3 className="text-3xl font-bold text-white sm:text-4xl">24/7</h3>
+              <p className="mt-2 text-base text-green-100 sm:text-lg">Monitoring Tanaman</p>
             </div>
           </div>
 
-          <div className="absolute -bottom-24 -right-24 w-[260px] h-[260px] rounded-full bg-white/10" />
-          <div className="absolute top-10 right-10 w-[120px] h-[120px] rounded-full bg-white/10" />
-        </div>
+          <div className="absolute -bottom-24 -right-24 h-[220px] w-[220px] rounded-full bg-white/10 sm:h-[260px] sm:w-[260px]" />
+          <div className="absolute right-10 top-10 h-[100px] w-[100px] rounded-full bg-white/10 sm:h-[120px] sm:w-[120px]" />
+        </section>
 
-        {/* RIGHT SIDE */}
-        <div className="p-12 lg:p-16 flex flex-col justify-center">
+        <section className="flex min-w-0 flex-col justify-center p-6 sm:p-10 lg:p-16">
           {success ? (
-            <div className="flex flex-col items-center text-center gap-6">
+            <div className="flex flex-col items-center gap-6 text-center">
               <CheckCircle2 size={80} className="text-green-500" />
-              <h2 className="text-4xl font-bold text-gray-800">Berhasil Daftar!</h2>
-              <p className="text-gray-500 text-xl">
+              <h2 className="text-3xl font-bold text-gray-800 sm:text-4xl">Berhasil Daftar!</h2>
+              <p className="text-lg text-gray-500 sm:text-xl">
                 Akun kamu berhasil dibuat. Mengarahkan ke halaman login...
               </p>
             </div>
           ) : (
             <>
-              <div className="mb-10">
-                <h2 className="text-5xl font-bold text-gray-800">Buat Akun</h2>
-                <p className="text-gray-500 text-xl mt-4 leading-relaxed">
+              <div className="mb-8 sm:mb-10">
+                <h2 className="text-4xl font-bold text-gray-800 sm:text-5xl">Buat Akun</h2>
+                <p className="mt-4 text-lg leading-relaxed text-gray-500 sm:text-xl">
                   Daftar untuk mulai memantau kesehatan tanaman tomatmu.
                 </p>
               </div>
 
-              {/* ERROR */}
               {error && (
-                <div className="mb-6 bg-red-50 border border-red-200 rounded-2xl px-5 py-3">
-                  <p className="text-red-600 text-sm font-medium">{error}</p>
+                <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-3">
+                  <p className="text-sm font-medium text-red-600">{error}</p>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* NAMA */}
+              <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                 <div>
-                  <label className="text-gray-700 text-lg font-medium block mb-3">
-                    Nama Lengkap
-                  </label>
+                  <label className="mb-3 block text-lg font-medium text-gray-700">Nama Lengkap</label>
                   <input
                     type="text"
                     name="full_name"
@@ -137,14 +129,13 @@ export default function RegisterPage() {
                     value={form.full_name}
                     onChange={handleChange}
                     disabled={loading}
-                    className="w-full bg-[#F5F7F3] rounded-2xl px-6 py-5 text-lg outline-none border-2 border-transparent focus:border-green-500 transition"
+                    className="w-full rounded-2xl border-2 border-transparent bg-[#F5F7F3] px-5 py-4 text-base outline-none transition focus:border-green-500 sm:px-6 sm:py-5 sm:text-lg"
                     required
                   />
                 </div>
 
-                {/* EMAIL */}
                 <div>
-                  <label className="text-gray-700 text-lg font-medium block mb-3">Email</label>
+                  <label className="mb-3 block text-lg font-medium text-gray-700">Email</label>
                   <input
                     type="email"
                     name="email"
@@ -152,14 +143,13 @@ export default function RegisterPage() {
                     value={form.email}
                     onChange={handleChange}
                     disabled={loading}
-                    className="w-full bg-[#F5F7F3] rounded-2xl px-6 py-5 text-lg outline-none border-2 border-transparent focus:border-green-500 transition"
+                    className="w-full rounded-2xl border-2 border-transparent bg-[#F5F7F3] px-5 py-4 text-base outline-none transition focus:border-green-500 sm:px-6 sm:py-5 sm:text-lg"
                     required
                   />
                 </div>
 
-                {/* PASSWORD */}
                 <div>
-                  <label className="text-gray-700 text-lg font-medium block mb-3">Password</label>
+                  <label className="mb-3 block text-lg font-medium text-gray-700">Password</label>
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -168,12 +158,12 @@ export default function RegisterPage() {
                       value={form.password}
                       onChange={handleChange}
                       disabled={loading}
-                      className="w-full bg-[#F5F7F3] rounded-2xl px-6 py-5 pr-14 text-lg outline-none border-2 border-transparent focus:border-green-500 transition"
+                      className="w-full rounded-2xl border-2 border-transparent bg-[#F5F7F3] px-5 py-4 pr-14 text-base outline-none transition focus:border-green-500 sm:px-6 sm:py-5 sm:text-lg"
                       required
                     />
                     <button
                       type="button"
-                      onClick={() => setShowPassword((v) => !v)}
+                      onClick={() => setShowPassword((value) => !value)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
                     >
                       {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
@@ -181,11 +171,8 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* KONFIRMASI PASSWORD */}
                 <div>
-                  <label className="text-gray-700 text-lg font-medium block mb-3">
-                    Konfirmasi Password
-                  </label>
+                  <label className="mb-3 block text-lg font-medium text-gray-700">Konfirmasi Password</label>
                   <div className="relative">
                     <input
                       type={showConfirm ? "text" : "password"}
@@ -194,7 +181,7 @@ export default function RegisterPage() {
                       value={form.confirmPassword}
                       onChange={handleChange}
                       disabled={loading}
-                      className={`w-full bg-[#F5F7F3] rounded-2xl px-6 py-5 pr-14 text-lg outline-none border-2 transition ${
+                      className={`w-full rounded-2xl border-2 bg-[#F5F7F3] px-5 py-4 pr-14 text-base outline-none transition sm:px-6 sm:py-5 sm:text-lg ${
                         form.confirmPassword && form.password !== form.confirmPassword
                           ? "border-red-400"
                           : "border-transparent focus:border-green-500"
@@ -203,22 +190,21 @@ export default function RegisterPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => setShowConfirm((v) => !v)}
+                      onClick={() => setShowConfirm((value) => !value)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
                     >
                       {showConfirm ? <EyeOff size={24} /> : <Eye size={24} />}
                     </button>
                   </div>
                   {form.confirmPassword && form.password !== form.confirmPassword && (
-                    <p className="text-red-500 text-sm mt-1 ml-2">Password tidak cocok</p>
+                    <p className="ml-2 mt-1 text-sm text-red-500">Password tidak cocok</p>
                   )}
                 </div>
 
-                {/* BUTTON */}
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-green-600 hover:bg-green-700 transition text-white text-2xl font-semibold py-5 rounded-2xl mt-4 shadow-lg shadow-green-200 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="mt-4 flex w-full items-center justify-center gap-3 rounded-2xl bg-green-600 py-4 text-xl font-semibold text-white shadow-lg shadow-green-200 transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70 sm:py-5 sm:text-2xl"
                 >
                   {loading ? (
                     <>
@@ -231,18 +217,17 @@ export default function RegisterPage() {
                 </button>
               </form>
 
-              {/* LOGIN */}
-              <div className="mt-10 text-center">
-                <p className="text-gray-500 text-lg">
+              <div className="mt-8 text-center sm:mt-10">
+                <p className="text-base text-gray-500 sm:text-lg">
                   Sudah punya akun?
-                  <Link to="/login" className="text-green-600 font-semibold ml-2 hover:underline">
+                  <Link to="/login" className="ml-2 font-semibold text-green-600 hover:underline">
                     Masuk
                   </Link>
                 </p>
               </div>
             </>
           )}
-        </div>
+        </section>
       </div>
     </div>
   );
